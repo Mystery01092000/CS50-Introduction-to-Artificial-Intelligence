@@ -1,5 +1,3 @@
-from logic import *
-
 from Knowledge.logic import Symbol, And, Not, model_check
 
 colors = ["red", "blue", "green", "yellow"]
