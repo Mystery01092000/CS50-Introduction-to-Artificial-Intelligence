@@ -14,39 +14,36 @@ CKnave = Symbol("C is a Knave")
 # Puzzle 0
 # A says "I am both a knight and a knave."
 knowledge0 = And(
-    # TODO
-    AKnight,
-    AKnave
+    # A is a knight if and only if A is not a knave
+    Biconditional(AKnight, Not(AKnave)),
+    # A is a knight if and only if "I am both a knight and a knave" is true
+    Biconditional(AKnight, And(AKnight, AKnave))
 )
 
 # Puzzle 1
 # A says "We are both knaves."
 # B says nothing.
 knowledge1 = And(
-    # TODO
-    AKnave,
-    BKnave
+    # A is a knight if and only if A is not a knave
+    Biconditional(AKnight, Not(AKnave)),
+    # B is a knight if and only if B is not a knave
+    Biconditional(BKnight, Not(BKnave)),
+    # A is a knight if and only if "We are both knaves" is true
+    Biconditional(AKnight, And(AKnave, BKnave))
 )
 
 # Puzzle 2
 # A says "We are the same kind."
 # B says "We are of different kinds."
 knowledge2 = And(
-    # TODO
-    Or(AKnight,
-       BKnight),
-    Or(
-        AKnave,
-        BKnave
-    ),
-    Or(Not(
-        Or(AKnight,
-            BKnight)),
-        Not(Or(
-            AKnave,
-            BKnave
-        )
-    ))
+    # A is a knight if and only if A is not a knave
+    Biconditional(AKnight, Not(AKnave)),
+    # B is a knight if and only if B is not a knave
+    Biconditional(BKnight, Not(BKnave)),
+    # A is a knight if and only if "We are the same kind" is true
+    Biconditional(AKnight, Or(And(AKnave, BKnave), And(AKnight, BKnight))),
+    # B is a knight if and only if "We are different kinds" is true
+    Biconditional(BKnight, Or(And(AKnave, BKnight), And(AKnight, BKnave)))
 )
 
 # Puzzle 3
@@ -55,11 +52,23 @@ knowledge2 = And(
 # B says "C is a knave."
 # C says "A is a knight."
 knowledge3 = And(
-    # TODO
-    Or(AKnight, AKnave),
-    AKnave,
-    CKnave,
-    AKnight
+    # A is a knight if and only if A is not a knave
+    Biconditional(AKnight, Not(AKnave)),
+    # B is a knight if and only if B is not a knave
+    Biconditional(BKnight, Not(BKnave)),
+    # C is a knight if and only if C is not a knave
+    Biconditional(CKnight, Not(CKnave)),
+
+    # One of the following is true:
+    #   A is a knight if and only if "I am a knight" is true
+    #   A is a knight if and only if "I am a knave" is true
+    Or(Biconditional(AKnight, AKnight), Biconditional(AKnight, AKnave)),
+    # B is a knight if and only if "A said 'I am a knave'" is true
+    Biconditional(BKnight, Biconditional(AKnight, AKnave)),
+    # B is a knight if and only if "C is a knave" is true
+    Biconditional(BKnight, CKnave),
+    # C is a knight if and only if "A is a knight" is true
+    Biconditional(CKnight, AKnight)
 )
 
 
