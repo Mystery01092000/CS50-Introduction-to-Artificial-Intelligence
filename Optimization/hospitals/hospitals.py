@@ -191,9 +191,9 @@ class Space():
 
 
 # Create a new space and add houses randomly
-s = Space(height=10, width=20, num_hospitals=3)
-for i in range(15):
+s = Space(height=20, width=30, num_hospitals=5)
+for i in range(25):
     s.add_house(random.randrange(s.height), random.randrange(s.width))
 
 # Use local search to determine hospital placement
-hospitals = s.hill_climb(image_prefix="hospitals", log=True)
+hospitals = s.random_restart(20,image_prefix="hospitals", log=True)
